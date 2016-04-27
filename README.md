@@ -1,7 +1,9 @@
 QMQTT
 =====
 
-mqtt client for Qt with support for WSS connections. Tested with the AWS IoT broker.
+A Mqtt client implementation.
+The project was derived from its original repository to support QT4 projects and to add functionality like WSS connections.
+The WSS support was added mostly to use the AWS IoT Broker.
 
 
 DEPENDENCIES
@@ -27,6 +29,9 @@ Usage
 
 	client->connect();
 
+For WSS support use:
+	
+	QMQTT::Client *client = new QMQTT::Client("wss://mysecure.domain.com/resource-path?with=some&parameters", 443);
 
 Slots
 =====

@@ -1,7 +1,16 @@
 QMQTT
 =====
 
-mqtt client for Qt
+mqtt client for Qt with support for WSS connections. Tested with the AWS IoT broker.
+
+
+DEPENDENCIES
+=====
+
+QT version >= QT4.7
+
+QtWebSockets project for QT4
+https://github.com/juaneduardodelgado/QtWebsocket.git
 
 Usage
 =====
@@ -73,12 +82,10 @@ The MIT License (MIT)
 Contributors
 =============
 
-[@Kampfgnom](https://github.com/Kampfgnom)
-
-[@rafaeldelucena](https://github.com/rafaeldelucena)
+[@juaneduardodelgado](https://github.com/juaneduardodelgado)
 
 
-Author
+Original Author
 ======
 
 Feng Lee <feng@emqtt.io>

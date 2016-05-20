@@ -13,6 +13,8 @@ TEMPLATE = lib
 
 DEFINES += QMQTT_LIBRARY
 
+CONFIG += prop
+
 CONFIG(debug, debug|release) {
     OBJDIR = bin/debug
 } else {
@@ -21,30 +23,18 @@ CONFIG(debug, debug|release) {
 
 linux-g++{
     64B{
-        message( "qmqtt: Configuring for amd64")
         SUFFIX = amd64
-        DEFINES += USE64B
-        DESTDIR = ../../libs/amd64
     } else {
-        message( "qmqtt: Configuring for i386")
         SUFFIX = i386
-        DESTDIR = ../../libs/i386
     }
 }
 linux-g++-64{
-    message( "qmqtt: Configuring for amd64")
     SUFFIX = amd64
-    DEFINES += USE64B
-    DESTDIR = ../../libs/amd64
 }
 linux-g++-32{
-    message( "qmqtt: Configuring for i386")
-    DESTDIR  = ../../libs/i386
     SUFFIX = i386
 }
 linux-avr32-g++{
-    message( "qmqtt: Configuring for Avr32")
-    DESTDIR = ../../libs/avr32
     QMAKE_CFLAGS_RELEASE -= -O2
     QMAKE_CFLAGS_RELEASE *= -O
     QMAKE_CXXFLAGS_RELEASE -= -O2
@@ -52,35 +42,28 @@ linux-avr32-g++{
     SUFFIX = avr
 }
 linux-arm-gnueabi-g++|linux-armel-gnueabi-g++{
-    message( "qmqtt: Configuring for ARMv5")
-    DEFINES += P2NRGENABLE
-    DESTDIR = ../../libs/arm
     SUFFIX = arm
 }
 linux-armv6-gnueabihf-g++|linux-rpi-gnueabihf-g++{
-    message( "qmqtt: Configuring for ARMv6 vfp")
-    DESTDIR = ../../libs/armv6
     SUFFIX = armv6
 }
 linux-armhf-gnueabi-g++|linux-armG1-gnueabihf-g++{
-    message( "qmqtt: Configuring for ARMv7")
-    DESTDIR = ../../libs/armv7
     SUFFIX = armv7
 }
 linux-armhfandroid-gnueabi-g++{
-    message( "qmqtt: Configuring for ARMv7 Android")
-    DESTDIR = ../../libs/armv7_android
     SUFFIX = armv7_android
 }
 linux-arm-uclibcgnueabi-g++{
-    message( "qmqtt: Configuring for BCM-97445C")
-    DESTDIR = ../../libs/bcm
     SUFFIX = bcm
 }
 linux-arm-gnueabihf-g++|linux-armbcm-gnueabihf-g++{
-    message("qmqtt: Configuring for BCM-ARMHF")
-    DESTDIR  = ../../libs/bcmhf
     SUFFIX = bcmhf
+}
+
+CONFIG(prop) {
+    DESTDIR = ../../libs/$${SUFFIX}
+} else {
+    DESTDIR = ./bin/$${SUFFIX}
 }
 
 OBJECTS_DIR = $${OBJDIR}/.obj$${SUFFIX}
@@ -91,7 +74,11 @@ UI_DIR = $${OBJDIR}/.ui$${SUFFIX}
 DEPENDPATH += . ../QtWebsocket/QtWebsocket
 INCLUDEPATH += ../QtWebsocket/QtWebsocket
 
-LIBS += -L ../QtWebsocket/QtWebsocket -lQtWebsocket
+CONFIG(prop) {
+    LIBS += -L ../../libs/$${SUFFIX} -lQtWebsocket
+} else {
+    LIBS += -L ../QtWebsocket/QtWebsocket/bin/$${SUFFIX} -lQtWebsocket
+}
 
 SOURCES += qmqtt_client.cpp \
     qmqtt_network.cpp \
